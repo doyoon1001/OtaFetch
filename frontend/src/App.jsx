@@ -277,7 +277,7 @@ function App() {
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
                   style={{ fontSize: 'clamp(13px,3vw,19px)', fontWeight: 600, color: '#0066cc', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 20 }}
                 >
-                  대리•수령 플랫폼
+                  대리구매•수령 플랫폼
                 </motion.p>
                 <motion.h1
                   initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.7 }}
