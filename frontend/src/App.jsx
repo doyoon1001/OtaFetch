@@ -78,6 +78,7 @@ function App() {
   const [requests, setRequests]         = useState([]);
   const [formData, setFormData]         = useState({ event_id: '', name: '', circle_name: '', address: '', item_name: '', quantity: 1 });
   const [eventForm, setEventForm]       = useState({ name: '', date: '', end_date: '' });
+  const [eventFormMsg, setEventFormMsg] = useState('');
   const [editingEvent, setEditingEvent] = useState(null);
 
   useEffect(() => { fetchEvents(); }, []);
@@ -132,12 +133,18 @@ function App() {
   };
 
   const handleAddEvent = async () => {
-    if (!eventForm.name.trim() || !eventForm.date) return;
+    if (!eventForm.name.trim()) { setEventFormMsg('이벤트 이름을 입력하세요.'); return; }
+    if (!eventForm.date) { setEventFormMsg('시작일을 선택하세요.'); return; }
+    setEventFormMsg('저장 중...');
     try {
       await axios.post(`${API_BASE}/events`, eventForm);
       setEventForm({ name: '', date: '', end_date: '' });
+      setEventFormMsg('추가됐어요!');
       fetchEvents();
-    } catch (err) { console.error(err); }
+      setTimeout(() => setEventFormMsg(''), 2000);
+    } catch (err) {
+      setEventFormMsg(`오류: ${err.response?.data?.error || err.message}`);
+    }
   };
 
   const handleEditEvent = async (e) => {
@@ -668,6 +675,11 @@ function App() {
                       <motion.button whileTap={{ scale: 0.97 }} type="button" onClick={handleAddEvent} className="btn-apple btn-primary w-full" style={{ height: 44, fontSize: 15, marginTop: 8 }}>
                         추가하기
                       </motion.button>
+                      {eventFormMsg && (
+                        <p style={{ marginTop: 10, fontSize: 13, color: eventFormMsg.startsWith('오류') ? '#ff3b30' : eventFormMsg === '추가됐어요!' ? '#34c759' : '#86868b', textAlign: 'center' }}>
+                          {eventFormMsg}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
