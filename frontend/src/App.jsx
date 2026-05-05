@@ -77,10 +77,6 @@ function App() {
   const [events, setEvents]             = useState([]);
   const [requests, setRequests]         = useState([]);
   const [formData, setFormData]         = useState({ event_id: '', name: '', circle_name: '', address: '', item_name: '', quantity: 1 });
-  const [statusQuery, setStatusQuery]   = useState('');
-  const [statusResults, setStatusResults] = useState([]);
-  const [statusSearched, setStatusSearched] = useState(false);
-  const [statusLoading, setStatusLoading]   = useState(false);
 
   useEffect(() => { fetchEvents(); }, []);
 
@@ -121,21 +117,6 @@ function App() {
     } else {
       setPendingView('buyer');
       setShowLogin(true);
-    }
-  };
-
-  const handleStatusSearch = async () => {
-    if (!statusQuery.trim()) return;
-    setStatusLoading(true);
-    setStatusSearched(false);
-    try {
-      const reqRes = await axios.get(`${API_BASE}/requests?buyer_id=${statusQuery.trim()}`);
-      setStatusResults(reqRes.data);
-    } catch {
-      setStatusResults([]);
-    } finally {
-      setStatusSearched(true);
-      setStatusLoading(false);
     }
   };
 
@@ -615,8 +596,6 @@ function App() {
               transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             >
               <SignIn
-                afterSignInUrl={window.location.href}
-                afterSignUpUrl={window.location.href}
                 appearance={{
                   elements: {
                     rootBox: { boxShadow: 'none' },
