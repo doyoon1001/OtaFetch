@@ -1,4 +1,4 @@
-import { setCors, getRows, appendRow, nextId, SPREADSHEET_ID } from './_lib/sheets.js';
+import { setCors, getRows, appendRow, nextId } from './_lib/sheets.js';
 
 export default async function handler(req, res) {
   setCors(res);
@@ -9,16 +9,15 @@ export default async function handler(req, res) {
       const rows = await getRows('events');
       const events = rows
         .filter(r => r[0])
-        .map(r => ({ id: parseInt(r[0]), name: r[1], date: r[2] || new Date().toISOString() }));
+        .map(r => ({ id: parseInt(r[0]), name: r[1], date: r[2] || '', end_date: r[3] || '' }));
       return res.json(events);
     }
 
     if (req.method === 'POST') {
-      const { name, date } = req.body;
+      const { name, date, end_date } = req.body;
       const id = nextId();
-      const eventDate = date || new Date().toISOString().split('T')[0];
-      await appendRow('events', [id, name, eventDate]);
-      return res.json({ id, name, date: eventDate });
+      await appendRow('events', [id, name, date || '', end_date || '']);
+      return res.json({ id, name, date: date || '', end_date: end_date || '' });
     }
 
     res.status(405).end();

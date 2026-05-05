@@ -77,7 +77,7 @@ function App() {
   const [events, setEvents]             = useState([]);
   const [requests, setRequests]         = useState([]);
   const [formData, setFormData]         = useState({ event_id: '', name: '', circle_name: '', address: '', item_name: '', quantity: 1 });
-  const [eventForm, setEventForm]       = useState({ name: '', date: '' });
+  const [eventForm, setEventForm]       = useState({ name: '', date: '', end_date: '' });
   const [editingEvent, setEditingEvent] = useState(null);
 
   useEffect(() => { fetchEvents(); }, []);
@@ -135,7 +135,7 @@ function App() {
     e.preventDefault();
     try {
       await axios.post(`${API_BASE}/events`, eventForm);
-      setEventForm({ name: '', date: '' });
+      setEventForm({ name: '', date: '', end_date: '' });
       fetchEvents();
     } catch (err) { console.error(err); }
   };
@@ -371,7 +371,7 @@ function App() {
                       </h3>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#86868b', fontSize: 15, marginBottom: 'auto' }}>
                         <Calendar size={13} />
-                        <span>{formatDate(event.date)}</span>
+                        <span>{formatDate(event.date)}{event.end_date ? ` ~ ${formatDate(event.end_date)}` : ''}</span>
                       </div>
                       <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <motion.button
@@ -619,9 +619,10 @@ function App() {
                     {events.map((ev, i) => (
                       <div key={ev.id} style={{ padding: '16px 20px', borderBottom: i < events.length - 1 ? '1px solid #f0f0f0' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                         {editingEvent?.id === ev.id ? (
-                          <form onSubmit={handleEditEvent} style={{ display: 'flex', gap: 8, flex: 1 }}>
-                            <input className="apple-input" style={{ flex: 1, height: 36, fontSize: 14 }} value={editingEvent.name} onChange={e => setEditingEvent({ ...editingEvent, name: e.target.value })} required />
+                          <form onSubmit={handleEditEvent} style={{ display: 'flex', flexWrap: 'wrap', gap: 8, flex: 1 }}>
+                            <input className="apple-input" style={{ flex: '1 1 160px', height: 36, fontSize: 14 }} value={editingEvent.name} onChange={e => setEditingEvent({ ...editingEvent, name: e.target.value })} placeholder="이벤트 이름" required />
                             <input className="apple-input" type="date" style={{ width: 140, height: 36, fontSize: 14 }} value={editingEvent.date} onChange={e => setEditingEvent({ ...editingEvent, date: e.target.value })} required />
+                            <input className="apple-input" type="date" style={{ width: 140, height: 36, fontSize: 14 }} value={editingEvent.end_date || ''} onChange={e => setEditingEvent({ ...editingEvent, end_date: e.target.value })} />
                             <button type="submit" className="btn-apple btn-primary" style={{ height: 36, padding: '0 14px', fontSize: 13 }}>저장</button>
                             <button type="button" onClick={() => setEditingEvent(null)} style={{ height: 36, padding: '0 10px', fontSize: 13, background: 'none', border: '1px solid #e0e0e0', borderRadius: 8, cursor: 'pointer' }}>취소</button>
                           </form>
@@ -629,10 +630,12 @@ function App() {
                           <>
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <p style={{ fontWeight: 600, fontSize: 15, marginBottom: 2 }}>{ev.name}</p>
-                              <p style={{ fontSize: 13, color: '#86868b' }}>{ev.date}</p>
+                              <p style={{ fontSize: 13, color: '#86868b' }}>
+                                {ev.date}{ev.end_date ? ` ~ ${ev.end_date}` : ''}
+                              </p>
                             </div>
                             <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                              <button onClick={() => setEditingEvent({ id: ev.id, name: ev.name, date: ev.date?.split('T')[0] || ev.date })} style={{ fontSize: 13, color: '#0066cc', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px' }}>수정</button>
+                              <button onClick={() => setEditingEvent({ id: ev.id, name: ev.name, date: ev.date?.split('T')[0] || ev.date, end_date: ev.end_date?.split('T')[0] || ev.end_date || '' })} style={{ fontSize: 13, color: '#0066cc', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px' }}>수정</button>
                               <button onClick={() => handleDeleteEvent(ev.id)} style={{ fontSize: 13, color: '#ff3b30', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px' }}>삭제</button>
                             </div>
                           </>
@@ -655,8 +658,12 @@ function App() {
                         <input className="apple-input" value={eventForm.name} onChange={e => setEventForm({ ...eventForm, name: e.target.value })} placeholder="예: 서울 코믹월드 10월" required />
                       </div>
                       <div className="apple-input-group">
-                        <label className="apple-label">날짜</label>
+                        <label className="apple-label">시작일</label>
                         <input className="apple-input" type="date" value={eventForm.date} onChange={e => setEventForm({ ...eventForm, date: e.target.value })} required />
+                      </div>
+                      <div className="apple-input-group">
+                        <label className="apple-label">종료일</label>
+                        <input className="apple-input" type="date" value={eventForm.end_date} onChange={e => setEventForm({ ...eventForm, end_date: e.target.value })} />
                       </div>
                       <motion.button whileTap={{ scale: 0.97 }} type="submit" className="btn-apple btn-primary w-full" style={{ height: 44, fontSize: 15, marginTop: 8 }}>
                         추가하기

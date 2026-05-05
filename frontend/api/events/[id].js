@@ -22,17 +22,17 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'PATCH') {
-      const { name, date } = req.body;
+      const { name, date, end_date } = req.body;
       const sheetRow = await findRow();
       if (sheetRow === -1) return res.status(404).json({ error: 'Event not found' });
 
       await sheets.spreadsheets.values.update({
         spreadsheetId: SPREADSHEET_ID,
-        range: `events!B${sheetRow}:C${sheetRow}`,
+        range: `events!B${sheetRow}:D${sheetRow}`,
         valueInputOption: 'RAW',
-        requestBody: { values: [[name, date]] },
+        requestBody: { values: [[name, date || '', end_date || '']] },
       });
-      return res.json({ id: eventId, name, date });
+      return res.json({ id: eventId, name, date: date || '', end_date: end_date || '' });
     }
 
     if (req.method === 'DELETE') {
