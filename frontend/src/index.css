@@ -1,0 +1,318 @@
+@import url('https://rsms.me/inter/inter.css');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0066cc;
+  --color-primary-focus: #0071e3;
+  --color-primary-on-dark: #2997ff;
+  --color-ink: #1d1d1f;
+  --color-ink-muted: #86868b;
+  --color-ink-muted-80: #333333;
+  --color-ink-muted-48: #7a7a7a;
+  --color-canvas: #ffffff;
+  --color-parchment: #f5f5f7;
+  --color-pearl: #fafafc;
+  --color-tile-1: #272729;
+  --color-tile-2: #2a2a2c;
+  --color-tile-3: #252527;
+  --color-surface-black: #000000;
+  --color-hairline: #e0e0e0;
+  --color-divider: #f0f0f0;
+  --color-chip: #d2d2d7;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: "SF Pro Text", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #ffffff;
+  color: #1d1d1f;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  overflow-x: hidden;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+
+.container-apple {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+@media (max-width: 390px) {
+  .container-apple { padding: 0 16px; }
+}
+
+/* ── Navigation ──────────────────────────────────────────── */
+
+.global-nav {
+  background: #000000;
+  height: 44px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.12px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.sub-nav {
+  background: rgba(245, 245, 247, 0.85);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  height: 52px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 44px;
+  z-index: 999;
+}
+
+/* ── Typography — fluid scaling ─────────────────────────── */
+
+.hero-title {
+  font-family: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
+  font-size: clamp(36px, 8vw, 80px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.section-title {
+  font-family: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
+  font-size: clamp(28px, 5.5vw, 56px);
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.02em;
+}
+
+/* ── Tiles ───────────────────────────────────────────────── */
+
+.tile {
+  padding: 80px 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 히어로만 뷰포트 꽉 채움 */
+.tile-hero {
+  min-height: calc(100svh - 96px);
+}
+
+@media (max-width: 640px) {
+  .tile       { padding: 56px 0; }
+  .tile-hero  { min-height: calc(100svh - 96px); }
+}
+
+.tile-white     { background: #ffffff; }
+.tile-parchment { background: #f5f5f7; }
+.tile-dark      { background: #272729; color: #ffffff; }
+.tile-dark-2    { background: #2a2a2c; color: #ffffff; }
+.tile-black     { background: #000000; color: #ffffff; }
+
+/* ── Cards ───────────────────────────────────────────────── */
+
+.utility-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid #e0e0e0;
+}
+
+@media (max-width: 640px) {
+  .utility-card { padding: 20px; border-radius: 14px; }
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+
+.btn-apple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 11px 22px;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.374px;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-apple:active { transform: scale(0.95); }
+
+.btn-primary  { background-color: #0066cc; color: #ffffff; }
+.btn-primary:hover { background-color: #0071e3; }
+
+.btn-secondary {
+  background-color: transparent;
+  color: #0066cc;
+  border: 1px solid #0066cc;
+}
+.btn-secondary:hover { background-color: rgba(0,102,204,0.06); }
+
+.btn-dark {
+  background-color: #1d1d1f;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: 8px;
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #0066cc;
+  font-size: 17px;
+  font-weight: 400;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-link:hover { text-decoration: underline; }
+
+/* ── Form Elements ───────────────────────────────────────── */
+
+.apple-input-group { margin-bottom: 20px; text-align: left; }
+
+.apple-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+  color: #86868b;
+  text-transform: uppercase;
+}
+
+.apple-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #d2d2d7;
+  border-radius: 12px;
+  font-size: 17px;
+  font-family: inherit;
+  color: #1d1d1f;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.apple-input:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0,102,204,0.15);
+}
+
+select.apple-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+/* ── Status Dot ──────────────────────────────────────────── */
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #e0e0e0;
+  flex-shrink: 0;
+}
+.status-active {
+  background-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0,102,204,0.2);
+}
+
+/* ── Admin Table ─────────────────────────────────────────── */
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.apple-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 17px;
+  min-width: 580px; /* 모바일에서 가로 스크롤 */
+}
+
+.apple-table thead tr { background: #f5f5f7; }
+
+.apple-table th {
+  padding: 14px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #86868b;
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.apple-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.apple-table tbody tr:last-child td { border-bottom: none; }
+.apple-table tbody tr:hover td { background: #fafafc; }
+
+/* ── Badge ───────────────────────────────────────────────── */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  white-space: nowrap;
+}
+.status-badge-active {
+  background: rgba(0,102,204,0.10);
+  color: #0066cc;
+}
+
+/* ── Page sections (non-tile views) ─────────────────────── */
+
+.page-section {
+  padding: 80px 0;
+}
+
+@media (max-width: 640px) {
+  .page-section { padding: 48px 0; }
+}
