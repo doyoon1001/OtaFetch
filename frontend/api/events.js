@@ -14,12 +14,11 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const rows = await getRows('events');
-      const id = nextId(rows);
-      const { name } = req.body;
-      const date = new Date().toISOString();
-      await appendRow('events', [id, name, date]);
-      return res.json({ id, name, date });
+      const { name, date } = req.body;
+      const id = nextId();
+      const eventDate = date || new Date().toISOString().split('T')[0];
+      await appendRow('events', [id, name, eventDate]);
+      return res.json({ id, name, date: eventDate });
     }
 
     res.status(405).end();

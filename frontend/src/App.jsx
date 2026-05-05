@@ -77,6 +77,8 @@ function App() {
   const [events, setEvents]             = useState([]);
   const [requests, setRequests]         = useState([]);
   const [formData, setFormData]         = useState({ event_id: '', name: '', circle_name: '', address: '', item_name: '', quantity: 1 });
+  const [eventForm, setEventForm]       = useState({ name: '', date: '' });
+  const [editingEvent, setEditingEvent] = useState(null);
 
   useEffect(() => { fetchEvents(); }, []);
 
@@ -126,6 +128,32 @@ function App() {
       await axios.post(`${API_BASE}/requests?buyer_id=${clerkUser.id}`, formData);
       setFormData({ ...formData, name: '', circle_name: '', address: '', item_name: '', quantity: 1 });
       fetchRequests();
+    } catch (err) { console.error(err); }
+  };
+
+  const handleAddEvent = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${API_BASE}/events`, eventForm);
+      setEventForm({ name: '', date: '' });
+      fetchEvents();
+    } catch (err) { console.error(err); }
+  };
+
+  const handleEditEvent = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.patch(`${API_BASE}/events/${editingEvent.id}`, editingEvent);
+      setEditingEvent(null);
+      fetchEvents();
+    } catch (err) { console.error(err); }
+  };
+
+  const handleDeleteEvent = async (id) => {
+    if (!confirm('이벤트를 삭제하면 관련 신청 내역은 유지됩니다. 삭제할까요?')) return;
+    try {
+      await axios.delete(`${API_BASE}/events/${id}`);
+      fetchEvents();
     } catch (err) { console.error(err); }
   };
 
@@ -577,6 +605,67 @@ function App() {
                   </div>
                 )}
               </div>
+
+              {/* ── 이벤트 관리 ── */}
+              <div style={{ marginTop: 64 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#0066cc', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>
+                  Events
+                </p>
+                <h3 style={{ fontSize: 28, fontWeight: 600, marginBottom: 32, letterSpacing: '-0.02em' }}>이벤트 관리</h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* 이벤트 목록 */}
+                  <div className="utility-card" style={{ padding: 0, overflow: 'hidden' }}>
+                    {events.map((ev, i) => (
+                      <div key={ev.id} style={{ padding: '16px 20px', borderBottom: i < events.length - 1 ? '1px solid #f0f0f0' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                        {editingEvent?.id === ev.id ? (
+                          <form onSubmit={handleEditEvent} style={{ display: 'flex', gap: 8, flex: 1 }}>
+                            <input className="apple-input" style={{ flex: 1, height: 36, fontSize: 14 }} value={editingEvent.name} onChange={e => setEditingEvent({ ...editingEvent, name: e.target.value })} required />
+                            <input className="apple-input" type="date" style={{ width: 140, height: 36, fontSize: 14 }} value={editingEvent.date} onChange={e => setEditingEvent({ ...editingEvent, date: e.target.value })} required />
+                            <button type="submit" className="btn-apple btn-primary" style={{ height: 36, padding: '0 14px', fontSize: 13 }}>저장</button>
+                            <button type="button" onClick={() => setEditingEvent(null)} style={{ height: 36, padding: '0 10px', fontSize: 13, background: 'none', border: '1px solid #e0e0e0', borderRadius: 8, cursor: 'pointer' }}>취소</button>
+                          </form>
+                        ) : (
+                          <>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <p style={{ fontWeight: 600, fontSize: 15, marginBottom: 2 }}>{ev.name}</p>
+                              <p style={{ fontSize: 13, color: '#86868b' }}>{ev.date}</p>
+                            </div>
+                            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                              <button onClick={() => setEditingEvent({ id: ev.id, name: ev.name, date: ev.date?.split('T')[0] || ev.date })} style={{ fontSize: 13, color: '#0066cc', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px' }}>수정</button>
+                              <button onClick={() => handleDeleteEvent(ev.id)} style={{ fontSize: 13, color: '#ff3b30', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px' }}>삭제</button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                    {events.length === 0 && (
+                      <div style={{ padding: '40px 20px', textAlign: 'center', color: '#86868b', fontSize: 15 }}>
+                        등록된 이벤트가 없습니다.
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 이벤트 추가 폼 */}
+                  <div className="utility-card">
+                    <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 20, color: '#1d1d1f' }}>새 이벤트 추가</p>
+                    <form onSubmit={handleAddEvent}>
+                      <div className="apple-input-group">
+                        <label className="apple-label">이벤트 이름</label>
+                        <input className="apple-input" value={eventForm.name} onChange={e => setEventForm({ ...eventForm, name: e.target.value })} placeholder="예: 서울 코믹월드 10월" required />
+                      </div>
+                      <div className="apple-input-group">
+                        <label className="apple-label">날짜</label>
+                        <input className="apple-input" type="date" value={eventForm.date} onChange={e => setEventForm({ ...eventForm, date: e.target.value })} required />
+                      </div>
+                      <motion.button whileTap={{ scale: 0.97 }} type="submit" className="btn-apple btn-primary w-full" style={{ height: 44, fontSize: 15, marginTop: 8 }}>
+                        추가하기
+                      </motion.button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </motion.div>
         )}
