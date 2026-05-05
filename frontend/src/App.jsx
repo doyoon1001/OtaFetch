@@ -143,7 +143,8 @@ function App() {
       fetchEvents();
       setTimeout(() => setEventFormMsg(''), 2000);
     } catch (err) {
-      setEventFormMsg(`오류: ${err.response?.data?.error || err.message}`);
+      const detail = err.response?.data ? JSON.stringify(err.response.data) : err.message;
+      setEventFormMsg(`오류: ${detail}`);
     }
   };
 
