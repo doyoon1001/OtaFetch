@@ -290,7 +290,7 @@ function App() {
                   initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.7 }}
                   style={{ fontSize: 'clamp(16px,2.5vw,22px)', color: '#86868b', marginBottom: 40, textAlign: 'center', lineHeight: 1.5 }}
                 >
-                  코믹월드, 일러스타 페스외 서브컬쳐 행사들을 가장완벽하게 방구석에서 즐기는 방법.
+                  코믹월드, 일러스타 페스등 서브컬쳐 행사들을 가장완벽하게 방구석에서 즐기는 방법.
                 </motion.p>
                 <motion.div
                   initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}
