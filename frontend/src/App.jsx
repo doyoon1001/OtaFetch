@@ -131,8 +131,8 @@ function App() {
     } catch (err) { console.error(err); }
   };
 
-  const handleAddEvent = async (e) => {
-    e.preventDefault();
+  const handleAddEvent = async () => {
+    if (!eventForm.name.trim() || !eventForm.date) return;
     try {
       await axios.post(`${API_BASE}/events`, eventForm);
       setEventForm({ name: '', date: '', end_date: '' });
@@ -652,23 +652,23 @@ function App() {
                   {/* 이벤트 추가 폼 */}
                   <div className="utility-card">
                     <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 20, color: '#1d1d1f' }}>새 이벤트 추가</p>
-                    <form onSubmit={handleAddEvent}>
+                    <div>
                       <div className="apple-input-group">
                         <label className="apple-label">이벤트 이름</label>
-                        <input className="apple-input" value={eventForm.name} onChange={e => setEventForm({ ...eventForm, name: e.target.value })} placeholder="예: 서울 코믹월드 10월" required />
+                        <input className="apple-input" value={eventForm.name} onChange={e => setEventForm({ ...eventForm, name: e.target.value })} placeholder="예: 서울 코믹월드 10월" />
                       </div>
                       <div className="apple-input-group">
                         <label className="apple-label">시작일</label>
-                        <input className="apple-input" type="date" value={eventForm.date} onChange={e => setEventForm({ ...eventForm, date: e.target.value })} required />
+                        <input className="apple-input" type="date" value={eventForm.date} onChange={e => setEventForm({ ...eventForm, date: e.target.value })} />
                       </div>
                       <div className="apple-input-group">
                         <label className="apple-label">종료일</label>
                         <input className="apple-input" type="date" value={eventForm.end_date} onChange={e => setEventForm({ ...eventForm, end_date: e.target.value })} />
                       </div>
-                      <motion.button whileTap={{ scale: 0.97 }} type="submit" className="btn-apple btn-primary w-full" style={{ height: 44, fontSize: 15, marginTop: 8 }}>
+                      <motion.button whileTap={{ scale: 0.97 }} type="button" onClick={handleAddEvent} className="btn-apple btn-primary w-full" style={{ height: 44, fontSize: 15, marginTop: 8 }}>
                         추가하기
                       </motion.button>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
