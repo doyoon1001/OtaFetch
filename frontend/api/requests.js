@@ -7,7 +7,7 @@ function rowToRequest(r) {
   return {
     id:          parseInt(r[0]) || 0,
     event_id:    parseInt(r[1]) || 0,
-    buyer_id:    parseInt(r[3]) || 0,
+    buyer_id:    r[3],
     name:        r[4],
     circle_name: r[5],
     address:     r[6],
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      const buyerId = req.query.buyer_id ? parseInt(req.query.buyer_id) : null;
+      const buyerId = req.query.buyer_id || null;
       const rows = await getRows('requests');
       let data = rows.filter(r => r[0]).map(rowToRequest);
       if (buyerId) data = data.filter(r => r.buyer_id === buyerId);
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const buyerId = parseInt(req.query.buyer_id);
+      const buyerId = req.query.buyer_id;
       const { event_id, event_name, name, circle_name, address, item_name, quantity } = req.body;
       const id = nextId();
       const now = new Date().toLocaleString('ko-KR');

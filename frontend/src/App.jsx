@@ -393,77 +393,51 @@ function App() {
                 Order Tracking
               </p>
               <h2 className="section-title" style={{ marginBottom: 12 }}>신청 조회</h2>
-              <p style={{ fontSize: 19, color: '#86868b', marginBottom: 56 }}>
-                아이디를 입력하면 신청 현황을 확인할 수 있습니다.
-              </p>
 
-              {/* Search bar */}
-              <div style={{ maxWidth: 520, margin: '0 auto 48px' }}>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="text"
-                    className="apple-input"
-                    style={{ flex: 1 }}
-                    placeholder="아이디 입력 (예: buyer1)"
-                    value={statusQuery}
-                    onChange={e => setStatusQuery(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && handleStatusSearch()}
-                  />
+              {!isSignedIn ? (
+                <div style={{ textAlign: 'center', padding: '80px 0' }}>
+                  <p style={{ fontSize: 19, color: '#86868b', marginBottom: 32 }}>
+                    로그인하면 신청 현황을 확인할 수 있습니다.
+                  </p>
                   <motion.button
                     whileTap={{ scale: 0.96 }}
                     className="btn-apple btn-primary"
-                    style={{ fontSize: 15, padding: '0 28px', flexShrink: 0, height: 48 }}
-                    onClick={handleStatusSearch}
+                    style={{ fontSize: 17, padding: '12px 32px' }}
+                    onClick={() => setShowLogin(true)}
                   >
-                    {statusLoading ? '조회 중…' : '조회'}
+                    로그인하기
                   </motion.button>
                 </div>
-              </div>
-
-              {/* Results */}
-              <AnimatePresence>
-                {statusSearched && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                    style={{ maxWidth: 720, margin: '0 auto' }}
-                  >
-                    {statusResults.length > 0 ? (
-                      <>
-                        <p style={{ fontSize: 13, color: '#86868b', marginBottom: 20 }}>
-                          {statusResults.length}건의 신청 내역이 있습니다.
-                        </p>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                          {statusResults.map((req, i) => (
-                            <motion.div
-                              key={req.id}
-                              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                              className="utility-card"
-                            >
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                                <p style={{ fontSize: 11, fontWeight: 700, color: '#0066cc', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                                  {req.event?.name}
-                                </p>
-                                <span style={{ fontSize: 12, color: '#86868b' }}>#{req.id}</span>
-                              </div>
-                              <h4 style={{ fontSize: 22, fontWeight: 600, marginBottom: 4, letterSpacing: '-0.02em' }}>
-                                {req.circle_name}
-                              </h4>
-                              <p style={{ fontSize: 15, color: '#86868b' }}>
-                                {req.item_name} &nbsp;·&nbsp; {req.quantity}개
-                              </p>
-                              <StatusTracker currentStatus={req.status} />
-                            </motion.div>
-                          ))}
+              ) : (
+                <>
+                  <p style={{ fontSize: 19, color: '#86868b', marginBottom: 48 }}>
+                    {requests.length > 0 ? `${requests.length}건의 신청 내역이 있습니다.` : '신청 내역이 없습니다.'}
+                  </p>
+                  <div style={{ maxWidth: 720, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    {requests.map((req, i) => (
+                      <motion.div
+                        key={req.id}
+                        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
+                        className="utility-card"
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                          <p style={{ fontSize: 11, fontWeight: 700, color: '#0066cc', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                            {req.event?.name}
+                          </p>
+                          <span style={{ fontSize: 12, color: '#86868b' }}>#{req.id}</span>
                         </div>
-                      </>
-                    ) : (
-                      <div style={{ textAlign: 'center', padding: '60px 0', color: '#86868b', fontSize: 17 }}>
-                        신청 내역이 없습니다.
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                        <h4 style={{ fontSize: 22, fontWeight: 600, marginBottom: 4, letterSpacing: '-0.02em' }}>
+                          {req.circle_name}
+                        </h4>
+                        <p style={{ fontSize: 15, color: '#86868b' }}>
+                          {req.item_name} &nbsp;·&nbsp; {req.quantity}개
+                        </p>
+                        <StatusTracker currentStatus={req.status} />
+                      </motion.div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </motion.div>
         )}
