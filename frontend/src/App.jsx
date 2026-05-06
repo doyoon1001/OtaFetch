@@ -166,10 +166,13 @@ function App() {
   };
 
   const updateStatus = async (requestId, newStatus) => {
+    setRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: newStatus } : r));
     try {
       await axios.patch(`${API_BASE}/requests/${requestId}/status`, { status: newStatus });
+    } catch (err) {
+      console.error(err);
       fetchRequests();
-    } catch (err) { console.error(err); }
+    }
   };
 
   const requireAuth = (targetView) => {
