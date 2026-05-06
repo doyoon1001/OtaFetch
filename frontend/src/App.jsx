@@ -574,7 +574,7 @@ function App() {
                 <table className="apple-table">
                   <thead>
                     <tr>
-                      <th>Event / User</th>
+                      <th>Event • User</th>
                       <th>Details</th>
                       <th>Status</th>
                       <th>Action</th>
@@ -584,8 +584,7 @@ function App() {
                     {requests.map((req, i) => (
                       <motion.tr key={req.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}>
                         <td>
-                          <p style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{req.event?.name}</p>
-                          <p style={{ fontSize: 13, color: '#86868b' }}>{req.name} · {req.buyer_id}</p>
+                          <p style={{ fontWeight: 600, fontSize: 17 }}>{req.event?.name} • {req.name}</p>
                         </td>
                         <td>
                           <p style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{req.circle_name}</p>
