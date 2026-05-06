@@ -126,7 +126,11 @@ function App() {
   const handleSubmitRequest = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE}/requests?buyer_id=${clerkUser.id}`, formData);
+      const selectedEvent = events.find(ev => ev.id === parseInt(formData.event_id));
+      await axios.post(`${API_BASE}/requests?buyer_id=${clerkUser.id}`, {
+        ...formData,
+        event_name: selectedEvent?.name || '',
+      });
       setFormData({ ...formData, name: '', circle_name: '', address: '', item_name: '', quantity: 1 });
       fetchRequests();
     } catch (err) { console.error(err); }
