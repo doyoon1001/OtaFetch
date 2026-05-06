@@ -727,8 +727,7 @@ function App() {
       <footer style={{ background: '#f5f5f7', padding: 'clamp(40px,6vw,64px) 0', marginTop: 'auto' }}>
         <div className="container-apple" style={{ borderTop: '1px solid #e0e0e0', paddingTop: 32 }}>
           <p style={{ fontSize: 12, color: '#7a7a7a', lineHeight: 1.8 }}>
-            Copyright © 2026 OtaFetch Inc. 모든 권리 보유.<br />
-            본 서비스는 전문적인 대리구매 중개 플랫폼입니다.
+            Copyright © 2026 OtaFetch Inc.
           </p>
         </div>
       </footer>
