@@ -581,7 +581,7 @@ function App() {
                       <motion.tr key={req.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}>
                         <td>
                           <p style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{req.event?.name}</p>
-                          <p style={{ fontSize: 13, color: '#86868b' }}>ID: {req.buyer_id}</p>
+                          <p style={{ fontSize: 13, color: '#86868b' }}>{req.name} · {req.buyer_id}</p>
                         </td>
                         <td>
                           <p style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{req.circle_name}</p>
