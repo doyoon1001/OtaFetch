@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ChevronRight, ShoppingBag, Search, Calendar } from 'lucide-react';
+import { ChevronRight, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUser, useClerk, SignIn } from '@clerk/clerk-react';
 
@@ -295,38 +295,24 @@ function App() {
               );
             })}
           </div>
-          <div className="flex gap-5 items-center">
-            <Search size={15} className="opacity-50 cursor-pointer hover:opacity-80 transition-opacity" />
-            <ShoppingBag size={15} className="opacity-50 cursor-pointer hover:opacity-80 transition-opacity" />
-          </div>
-        </div>
-      </header>
-
-      {/* ── Sub Nav ── */}
-      <nav className="sub-nav">
-        <div className="container-apple flex justify-between items-center w-full">
-          <div className="flex items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => setView('landing')}>
-            <img src="/logo.png" alt="OtaFetch" style={{ height: 38, width: 'auto', objectFit: 'contain' }} />
-            <span className="font-semibold tracking-tight" style={{ fontSize: 21, color: '#1d1d1f' }}>OtaFetch</span>
-          </div>
           <div className="flex gap-4 items-center">
             {isSignedIn ? (
               <>
-                <span className="hidden sm:block font-medium uppercase tracking-wider" style={{ fontSize: 12, color: '#86868b' }}>
+                <span className="hidden sm:block opacity-50" style={{ fontSize: 12 }}>
                   {clerkUser?.firstName || clerkUser?.emailAddresses?.[0]?.emailAddress?.split('@')[0]}
                 </span>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { signOut(); setView('landing'); }} className="btn-apple btn-dark" style={{ fontSize: 13, padding: '7px 16px' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { signOut(); setView('landing'); }} className="btn-apple btn-dark" style={{ fontSize: 12, padding: '5px 14px' }}>
                   Sign Out
                 </motion.button>
               </>
             ) : (
-              <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowLogin(true)} className="btn-apple btn-primary" style={{ fontSize: '14px', padding: '8px 18px' }}>
+              <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowLogin(true)} className="btn-apple btn-primary" style={{ fontSize: 12, padding: '5px 14px' }}>
                 Sign In
               </motion.button>
             )}
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* ── Views ── */}
       <AnimatePresence mode="wait">

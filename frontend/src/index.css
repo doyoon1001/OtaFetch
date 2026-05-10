@@ -111,12 +111,12 @@ body {
 
 /* 히어로만 뷰포트 꽉 채움 */
 .tile-hero {
-  min-height: calc(100svh - 96px);
+  min-height: calc(100svh - 44px);
 }
 
 @media (max-width: 640px) {
   .tile       { padding: 56px 0; }
-  .tile-hero  { min-height: calc(100svh - 96px); }
+  .tile-hero  { min-height: calc(100svh - 44px); }
 }
 
 .tile-white     { background: #ffffff; }
