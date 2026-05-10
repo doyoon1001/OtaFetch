@@ -305,12 +305,10 @@ function App() {
       {/* ── Sub Nav ── */}
       <nav className="sub-nav">
         <div className="container-apple flex justify-between items-center w-full">
-          <img
-            src="/logo.png"
-            alt="OtaFetch"
-            onClick={() => setView('landing')}
-            style={{ height: 26, width: 'auto', cursor: 'pointer', objectFit: 'contain' }}
-          />
+          <div className="flex items-center gap-2" style={{ cursor: 'pointer' }} onClick={() => setView('landing')}>
+            <img src="/logo.png" alt="OtaFetch" style={{ height: 28, width: 'auto', objectFit: 'contain' }} />
+            <span className="font-semibold tracking-tight" style={{ fontSize: 21, color: '#1d1d1f' }}>OtaFetch</span>
+          </div>
           <div className="flex gap-4 items-center">
             {isSignedIn ? (
               <>
