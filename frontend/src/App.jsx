@@ -266,7 +266,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen pt-[44px]">
+    <div className="min-h-screen pt-[44px]" style={{ background: '#fff' }}>
 
       {/* ── Global Nav ── */}
       <header className="global-nav">
