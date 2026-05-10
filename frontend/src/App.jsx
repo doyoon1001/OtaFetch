@@ -74,6 +74,7 @@ function App() {
   const [events, setEvents]             = useState([]);
   const [requests, setRequests]         = useState([]);
   const [formData, setFormData]         = useState(INITIAL_FORM);
+  const [formError, setFormError]       = useState('');
   const [eventForm, setEventForm]       = useState({ name: '', date: '', end_date: '' });
   const [eventFormMsg, setEventFormMsg] = useState('');
   const [editingEvent, setEditingEvent] = useState(null);
@@ -82,11 +83,7 @@ function App() {
   const courierValid = formData.courier === '우체국'
     ? !!(formData.zipcode && formData.road_address)
     : !!(formData.store_name && formData.store_address);
-  const canSubmit = formData.has_paper_item !== 'A4초과'
-    && formData.privacy_agreed
-    && formData.damage_waiver === '동의'
-    && phoneValid
-    && courierValid;
+  const isPaperBlocked = formData.has_paper_item === 'A4초과';
 
   useEffect(() => { fetchEvents(); }, []);
 
@@ -158,7 +155,15 @@ function App() {
 
   const handleSubmitRequest = async (e) => {
     e.preventDefault();
-    if (!canSubmit) return;
+    if (isPaperBlocked) return;
+    if (!phoneValid) { setFormError('전화번호를 올바른 형식으로 입력해주세요. (예: 010-1234-5678)'); return; }
+    if (!formData.privacy_agreed) { setFormError('개인정보 수집 및 이용에 동의해주세요.'); return; }
+    if (formData.damage_waiver !== '동의') { setFormError('파손 면책에 동의해야 서비스를 이용할 수 있습니다.'); return; }
+    if (!courierValid) {
+      setFormError(formData.courier === '우체국' ? '주소 검색 버튼으로 배송 주소를 입력해주세요.' : '편의점 점포명과 점포 주소를 입력해주세요.');
+      return;
+    }
+    setFormError('');
     try {
       const firstBooth = formData.booths[0] || { circle: '', item: '', qty: 1 };
       const pickupAddress = formData.courier === '우체국'
@@ -684,12 +689,17 @@ function App() {
                       <motion.button
                         whileTap={{ scale: 0.98 }}
                         type="submit"
-                        disabled={!canSubmit}
+                        disabled={isPaperBlocked}
                         className="btn-apple btn-primary w-full"
-                        style={{ height: 48, fontSize: 17, marginTop: 8, opacity: canSubmit ? 1 : 0.4, cursor: canSubmit ? 'pointer' : 'not-allowed' }}
+                        style={{ height: 48, fontSize: 17, marginTop: 8, opacity: isPaperBlocked ? 0.4 : 1, cursor: isPaperBlocked ? 'not-allowed' : 'pointer' }}
                       >
                         신청하기
                       </motion.button>
+                      {formError && (
+                        <p style={{ color: '#ff3b30', fontSize: 13, marginTop: 10, textAlign: 'center', fontWeight: 500 }}>
+                          ⚠ {formError}
+                        </p>
+                      )}
                     </form>
                   </div>
                 </div>
