@@ -351,35 +351,61 @@ function App() {
               </div>
             </section>
 
-            <section className="tile tile-dark">
+            <section className="tile tile-black" style={{ padding: 'clamp(80px,10vw,140px) 0' }}>
               <div className="container-apple">
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-                  className="section-title" style={{ marginBottom: 32 }}
+                  className="section-title" style={{ marginBottom: 16 }}
                 >
                   현장에서 문 앞까지.<br />빈틈없는 대리구매.
                 </motion.h2>
-                <p style={{ fontSize: 'clamp(16px,2.5vw,22px)', color: 'rgba(255,255,255,0.5)', marginBottom: 48, textAlign: 'center', lineHeight: 1.5 }}>
+                <motion.p
+                  initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.6 }}
+                  style={{ fontSize: 'clamp(16px,2.5vw,21px)', color: 'rgba(255,255,255,0.45)', marginBottom: 'clamp(56px,8vw,96px)', textAlign: 'center', lineHeight: 1.6 }}
+                >
                   전문 쇼퍼가 당신의 열정을 안전하게 배달합니다.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-px max-w-3xl mx-auto w-full">
-                  {[
-                    { label: '신청', desc: '원하는 굿즈를 간편하게 신청' },
-                    { label: '구매', desc: '현장에서 쇼퍼가 직접 구매' },
-                    { label: '배달', desc: '안전하게 포장해서 문 앞 배달' },
-                  ].map((f, i) => (
-                    <motion.div
-                      key={f.label}
-                      initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.5 }}
-                      className="rounded-2xl sm:rounded-none sm:first:rounded-l-2xl sm:last:rounded-r-2xl"
-                      style={{ background: 'rgba(255,255,255,0.05)', padding: 'clamp(20px,4vw,40px)' }}
-                    >
-                      <p style={{ fontSize: 'clamp(24px,4vw,36px)', fontWeight: 600, marginBottom: 10, opacity: 0.4 }}>0{i + 1}</p>
-                      <p style={{ fontSize: 'clamp(17px,2.5vw,21px)', fontWeight: 600, marginBottom: 6 }}>{f.label}</p>
-                      <p style={{ fontSize: 'clamp(14px,2vw,17px)', opacity: 0.5 }}>{f.desc}</p>
-                    </motion.div>
-                  ))}
-                </div>
+                </motion.p>
+
+                {[
+                  { label: '신청', desc: '원하는 굿즈와 서클 정보를 입력하면\n전문 쇼퍼에게 즉시 전달됩니다.' },
+                  { label: '구매', desc: '쇼퍼가 행사 현장에서 직접 구매하고\n안전하게 수령합니다.' },
+                  { label: '배달', desc: '꼼꼼하게 포장된 굿즈가\n집 앞까지 안전하게 도착합니다.' },
+                ].map((f, i) => (
+                  <motion.div
+                    key={f.label}
+                    initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.14, duration: 0.65 }}
+                    style={{
+                      position: 'relative',
+                      overflow: 'hidden',
+                      borderTop: '1px solid rgba(255,255,255,0.08)',
+                      ...(i === 2 ? { borderBottom: '1px solid rgba(255,255,255,0.08)' } : {}),
+                      padding: 'clamp(36px,5vw,60px) 0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 'clamp(24px,4vw,56px)',
+                    }}
+                  >
+                    <span style={{
+                      position: 'absolute', right: -8, top: '50%', transform: 'translateY(-50%)',
+                      fontSize: 'clamp(100px,16vw,180px)', fontWeight: 800,
+                      color: 'rgba(255,255,255,0.04)', lineHeight: 1,
+                      letterSpacing: '-0.04em', userSelect: 'none', pointerEvents: 'none',
+                    }}>
+                      0{i + 1}
+                    </span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#2997ff', letterSpacing: '0.08em', flexShrink: 0, minWidth: 28 }}>
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <p style={{ fontSize: 'clamp(24px,4vw,42px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 10, lineHeight: 1.15 }}>
+                        {f.label}
+                      </p>
+                      <p style={{ fontSize: 'clamp(14px,2vw,18px)', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                        {f.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </section>
           </motion.div>
