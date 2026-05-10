@@ -283,13 +283,8 @@ function App() {
               return (
                 <span
                   key={target}
-                  className="cursor-pointer hidden md:block transition-all"
-                  style={{
-                    fontSize: 12,
-                    fontWeight: isActive ? 600 : 400,
-                    color: isActive ? '#1d1d1f' : 'rgba(29,29,31,0.35)',
-                    fontWeight: isActive ? 600 : 400,
-                  }}
+                  className={`cursor-pointer hidden md:block transition-opacity ${isActive ? '' : 'opacity-50 hover:opacity-80'}`}
+                  style={{ fontSize: 12, fontWeight: isActive ? 600 : 400 }}
                   onClick={() => setView(target)}
                 >
                   {label}
