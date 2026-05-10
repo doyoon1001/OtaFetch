@@ -79,6 +79,8 @@ function App() {
   const [eventFormMsg, setEventFormMsg] = useState('');
   const [editingEvent, setEditingEvent] = useState(null);
 
+  const myRequests = requests.filter(r => r.buyer_id === clerkUser?.id);
+
   const phoneValid = /^010-\d{4}-\d{4}$/.test(formData.phone);
   const courierValid = formData.courier === '우체국'
     ? !!(formData.zipcode && formData.road_address)
@@ -442,10 +444,10 @@ function App() {
               ) : (
                 <>
                   <p style={{ fontSize: 19, color: '#86868b', marginBottom: 48 }}>
-                    {requests.length > 0 ? `${requests.length}건의 신청 내역이 있습니다.` : '신청 내역이 없습니다.'}
+                    {myRequests.length > 0 ? `${myRequests.length}건의 신청 내역이 있습니다.` : '신청 내역이 없습니다.'}
                   </p>
                   <div style={{ maxWidth: 720, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                    {requests.map((req, i) => (
+                    {myRequests.map((req, i) => (
                       <motion.div key={req.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="utility-card">
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
                           <p style={{ fontSize: 11, fontWeight: 700, color: '#0066cc', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{req.event?.name}</p>
@@ -708,10 +710,10 @@ function App() {
                 <div className="md:col-span-8">
                   <h2 className="section-title" style={{ marginBottom: 8 }}>신청 현황</h2>
                   <p style={{ fontSize: 17, color: '#86868b', marginBottom: 32 }}>
-                    {requests.length > 0 ? `${requests.length}건 접수됨` : '아직 신청 내역이 없습니다.'}
+                    {myRequests.length > 0 ? `${myRequests.length}건 접수됨` : '아직 신청 내역이 없습니다.'}
                   </p>
                   <div className="flex flex-col gap-4">
-                    {requests.map((req, i) => (
+                    {myRequests.map((req, i) => (
                       <motion.div
                         key={req.id}
                         initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06, duration: 0.4 }}
@@ -732,7 +734,7 @@ function App() {
                         </div>
                       </motion.div>
                     ))}
-                    {requests.length === 0 && (
+                    {myRequests.length === 0 && (
                       <div style={{ textAlign: 'center', padding: '80px 0', color: '#86868b', fontSize: 17 }}>신청 내역이 없습니다.</div>
                     )}
                   </div>
