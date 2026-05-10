@@ -351,47 +351,61 @@ function App() {
               </div>
             </section>
 
-            <section className="tile tile-parchment" style={{ padding: 'clamp(80px,10vw,140px) 0' }}>
+            <section className="tile tile-black" style={{ padding: 'clamp(80px,10vw,140px) 0' }}>
               <div className="container-apple">
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-                  style={{ fontSize: 13, fontWeight: 600, color: '#0066cc', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'center', marginBottom: 20 }}
-                >
-                  How it works
-                </motion.p>
                 <motion.h2
-                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.7 }}
-                  className="section-title" style={{ marginBottom: 16, color: '#1d1d1f' }}
+                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+                  className="section-title" style={{ marginBottom: 16 }}
                 >
                   현장에서 문 앞까지.<br />빈틈없는 대리구매.
                 </motion.h2>
                 <motion.p
                   initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.6 }}
-                  style={{ fontSize: 'clamp(16px,2.5vw,21px)', color: '#86868b', marginBottom: 'clamp(56px,8vw,96px)', textAlign: 'center', lineHeight: 1.6 }}
+                  style={{ fontSize: 'clamp(16px,2.5vw,21px)', color: 'rgba(255,255,255,0.45)', marginBottom: 'clamp(56px,8vw,96px)', textAlign: 'center', lineHeight: 1.6 }}
                 >
                   전문 쇼퍼가 당신의 열정을 안전하게 배달합니다.
                 </motion.p>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                  {[
-                    { num: '01', label: '신청', desc: '원하는 굿즈와 서클 정보를 입력하면 전문 쇼퍼에게 즉시 전달됩니다.', icon: '📋' },
-                    { num: '02', label: '구매', desc: '쇼퍼가 행사 현장에서 직접 구매하고 안전하게 수령합니다.', icon: '🛍️' },
-                    { num: '03', label: '배달', desc: '꼼꼼하게 포장된 굿즈가 집 앞까지 안전하게 도착합니다.', icon: '📦' },
-                  ].map((f, i) => (
-                    <motion.div
-                      key={f.num}
-                      initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.13, duration: 0.6 }}
-                      style={{ background: '#fff', borderRadius: 20, padding: 'clamp(28px,4vw,40px)' }}
-                    >
-                      <span style={{ fontSize: 36, marginBottom: 20, display: 'block' }}>{f.icon}</span>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: '#0066cc', letterSpacing: '0.08em', display: 'block', marginBottom: 10 }}>{f.num}</span>
-                      <p style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 12, color: '#1d1d1f', lineHeight: 1.2 }}>
+                {[
+                  { label: '신청', desc: '원하는 굿즈와 서클 정보를 입력하면\n전문 쇼퍼에게 즉시 전달됩니다.' },
+                  { label: '구매', desc: '쇼퍼가 행사 현장에서 직접 구매하고\n안전하게 수령합니다.' },
+                  { label: '배달', desc: '꼼꼼하게 포장된 굿즈가\n집 앞까지 안전하게 도착합니다.' },
+                ].map((f, i) => (
+                  <motion.div
+                    key={f.label}
+                    initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.14, duration: 0.65 }}
+                    style={{
+                      position: 'relative',
+                      overflow: 'hidden',
+                      borderTop: '1px solid rgba(255,255,255,0.08)',
+                      ...(i === 2 ? { borderBottom: '1px solid rgba(255,255,255,0.08)' } : {}),
+                      padding: 'clamp(36px,5vw,60px) 0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 'clamp(24px,4vw,56px)',
+                    }}
+                  >
+                    <span style={{
+                      position: 'absolute', right: -8, top: '50%', transform: 'translateY(-50%)',
+                      fontSize: 'clamp(100px,16vw,180px)', fontWeight: 800,
+                      color: 'rgba(255,255,255,0.04)', lineHeight: 1,
+                      letterSpacing: '-0.04em', userSelect: 'none', pointerEvents: 'none',
+                    }}>
+                      0{i + 1}
+                    </span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#2997ff', letterSpacing: '0.08em', flexShrink: 0, minWidth: 28 }}>
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <p style={{ fontSize: 'clamp(24px,4vw,42px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 10, lineHeight: 1.15 }}>
                         {f.label}
                       </p>
-                      <p style={{ fontSize: 15, color: '#86868b', lineHeight: 1.75 }}>{f.desc}</p>
-                    </motion.div>
-                  ))}
-                </div>
+                      <p style={{ fontSize: 'clamp(14px,2vw,18px)', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                        {f.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </section>
           </motion.div>
