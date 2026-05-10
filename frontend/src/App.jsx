@@ -343,7 +343,7 @@ function App() {
                   코믹월드, 일러스타 페스등 서브컬쳐 행사들을 가장완벽하게 방구석에서 즐기는 방법.
                 </motion.p>
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }} className="flex gap-4 justify-center items-center flex-wrap">
-                  <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowLogin(true)} className="btn-apple btn-primary" style={{ fontSize: 16, padding: '11px 22px' }}>
+                  <motion.button whileTap={{ scale: 0.95 }} onClick={() => isSignedIn ? setView('shop') : setShowLogin(true)} className="btn-apple btn-primary" style={{ fontSize: 16, padding: '11px 22px' }}>
                     시작하기
                   </motion.button>
                   <button className="btn-link" style={{ fontSize: 16 }} onClick={() => setView('shop')}>
