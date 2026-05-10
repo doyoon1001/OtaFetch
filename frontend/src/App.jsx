@@ -287,9 +287,8 @@ function App() {
                   style={{
                     fontSize: 12,
                     fontWeight: isActive ? 600 : 400,
-                    color: isActive ? '#1d1d1f' : '#86868b',
-                    borderBottom: isActive ? '1.5px solid #1d1d1f' : '1.5px solid transparent',
-                    paddingBottom: 1,
+                    color: isActive ? '#1d1d1f' : 'rgba(29,29,31,0.35)',
+                    fontWeight: isActive ? 600 : 400,
                   }}
                   onClick={() => setView(target)}
                 >
