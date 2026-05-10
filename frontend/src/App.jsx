@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ChevronRight, Calendar } from 'lucide-react';
+import { ChevronRight, Calendar, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUser, useClerk, SignIn } from '@clerk/clerk-react';
 
@@ -78,6 +78,7 @@ function App() {
   const [eventForm, setEventForm]       = useState({ name: '', date: '', end_date: '' });
   const [eventFormMsg, setEventFormMsg] = useState('');
   const [editingEvent, setEditingEvent] = useState(null);
+  const [mobileMenu, setMobileMenu]     = useState(false);
 
   const myRequests = requests.filter(r => r.buyer_id === clerkUser?.id);
 
@@ -274,7 +275,7 @@ function App() {
             <img
               src="/logo.png"
               alt="OtaFetch"
-              onClick={() => setView('landing')}
+              onClick={() => { setView('landing'); setMobileMenu(false); }}
               style={{ height: 32, width: 'auto', cursor: 'pointer', objectFit: 'contain' }}
             />
             {[
@@ -301,18 +302,65 @@ function App() {
                 <span className="hidden sm:block opacity-50" style={{ fontSize: 12 }}>
                   {clerkUser?.firstName || clerkUser?.emailAddresses?.[0]?.emailAddress?.split('@')[0]}
                 </span>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { signOut(); setView('landing'); }} className="btn-apple btn-dark" style={{ fontSize: 12, padding: '5px 14px' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { signOut(); setView('landing'); }} className="btn-apple btn-dark hidden md:block" style={{ fontSize: 12, padding: '5px 14px' }}>
                   Sign Out
                 </motion.button>
               </>
             ) : (
-              <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowLogin(true)} className="btn-apple btn-primary" style={{ fontSize: 12, padding: '5px 14px' }}>
+              <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowLogin(true)} className="btn-apple btn-primary hidden md:block" style={{ fontSize: 12, padding: '5px 14px' }}>
                 Sign In
               </motion.button>
             )}
+            <button className="md:hidden flex items-center justify-center" onClick={() => setMobileMenu(v => !v)} style={{ color: '#fff', padding: 4 }}>
+              {mobileMenu ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
       </header>
+
+      {/* ── Mobile Menu ── */}
+      <AnimatePresence>
+        {mobileMenu && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}
+            style={{ position: 'fixed', top: 44, left: 0, right: 0, background: '#000', zIndex: 998, borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '12px 0' }}
+          >
+            {[
+              { label: 'Events', target: 'shop' },
+              { label: 'Status', target: 'status' },
+              ...(isAdmin ? [{ label: 'Admin', target: 'admin' }] : []),
+            ].map(({ label, target }) => {
+              const isActive = view === target || (target === 'shop' && view === 'buyer');
+              return (
+                <div
+                  key={target}
+                  onClick={() => { setView(target); setMobileMenu(false); }}
+                  style={{ padding: '14px 22px', fontSize: 16, fontWeight: isActive ? 600 : 400, color: isActive ? '#fff' : 'rgba(255,255,255,0.5)', cursor: 'pointer' }}
+                >
+                  {label}
+                </div>
+              );
+            })}
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '8px 0' }} />
+            {isSignedIn ? (
+              <div style={{ padding: '8px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>
+                  {clerkUser?.firstName || clerkUser?.emailAddresses?.[0]?.emailAddress?.split('@')[0]}
+                </span>
+                <button onClick={() => { signOut(); setView('landing'); setMobileMenu(false); }} style={{ fontSize: 13, color: '#fff', background: 'rgba(255,255,255,0.12)', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer' }}>
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div style={{ padding: '8px 22px' }}>
+                <button onClick={() => { setShowLogin(true); setMobileMenu(false); }} style={{ width: '100%', fontSize: 14, color: '#fff', background: '#0066cc', border: 'none', borderRadius: 10, padding: '12px', cursor: 'pointer', fontWeight: 600 }}>
+                  Sign In
+                </button>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Views ── */}
       <AnimatePresence mode="wait">
