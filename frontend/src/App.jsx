@@ -336,13 +336,7 @@ function App() {
           <motion.div key="landing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
             <section className="tile tile-white tile-hero">
               <div className="container-apple">
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05, duration: 0.6 }}
-                  style={{ display: 'flex', justifyContent: 'center', marginBottom: 28 }}
-                >
-                  <img src="/logo.png" alt="OtaFetch" style={{ height: 'clamp(36px,6vw,56px)', width: 'auto', objectFit: 'contain' }} />
-                </motion.div>
-                <motion.p
+<motion.p
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
                   style={{ fontSize: 'clamp(13px,3vw,19px)', fontWeight: 600, color: '#0066cc', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 20 }}
                 >
