@@ -275,7 +275,7 @@ function App() {
               OtaFetch
             </span>
             <span className="opacity-50 cursor-pointer hidden md:block hover:opacity-80 transition-opacity" style={{ fontSize: 12 }} onClick={() => setView('shop')}>
-              Shop
+              Events
             </span>
             <span className="opacity-50 cursor-pointer hidden md:block hover:opacity-80 transition-opacity" style={{ fontSize: 12 }} onClick={() => setView('status')}>
               Status
