@@ -907,7 +907,7 @@ function App() {
       </AnimatePresence>
 
       {/* ── Footer ── */}
-      <footer style={{ background: '#f5f5f7', padding: 'clamp(20px,3vw,32px) 0', marginTop: 'auto' }} />
+      <footer style={{ background: '#000000', padding: 'clamp(20px,3vw,32px) 0', marginTop: 'auto' }} />
     </div>
   );
 }
