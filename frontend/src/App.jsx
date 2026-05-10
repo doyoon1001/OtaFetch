@@ -274,17 +274,29 @@ function App() {
             <span className="font-semibold cursor-pointer" style={{ fontSize: 14 }} onClick={() => setView('landing')}>
               OtaFetch
             </span>
-            <span className="opacity-50 cursor-pointer hidden md:block hover:opacity-80 transition-opacity" style={{ fontSize: 12 }} onClick={() => setView('shop')}>
-              Events
-            </span>
-            <span className="opacity-50 cursor-pointer hidden md:block hover:opacity-80 transition-opacity" style={{ fontSize: 12 }} onClick={() => setView('status')}>
-              Status
-            </span>
-            {isAdmin && (
-              <span className="cursor-pointer hidden md:block hover:opacity-80 transition-opacity" style={{ fontSize: 12, color: '#0066cc', fontWeight: 600 }} onClick={() => setView('admin')}>
-                Admin
-              </span>
-            )}
+            {[
+              { label: 'Events', target: 'shop' },
+              { label: 'Status', target: 'status' },
+              ...(isAdmin ? [{ label: 'Admin', target: 'admin' }] : []),
+            ].map(({ label, target }) => {
+              const isActive = view === target || (target === 'shop' && view === 'buyer');
+              return (
+                <span
+                  key={target}
+                  className="cursor-pointer hidden md:block transition-all"
+                  style={{
+                    fontSize: 12,
+                    fontWeight: isActive ? 600 : 400,
+                    color: isActive ? '#1d1d1f' : '#86868b',
+                    borderBottom: isActive ? '1.5px solid #1d1d1f' : '1.5px solid transparent',
+                    paddingBottom: 1,
+                  }}
+                  onClick={() => setView(target)}
+                >
+                  {label}
+                </span>
+              );
+            })}
           </div>
           <div className="flex gap-5 items-center">
             <Search size={15} className="opacity-50 cursor-pointer hover:opacity-80 transition-opacity" />
