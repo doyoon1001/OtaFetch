@@ -275,7 +275,7 @@ function App() {
               src="/logo.png"
               alt="OtaFetch"
               onClick={() => setView('landing')}
-              style={{ height: 26, width: 'auto', cursor: 'pointer', objectFit: 'contain' }}
+              style={{ height: 32, width: 'auto', cursor: 'pointer', objectFit: 'contain' }}
             />
             {[
               { label: 'Events', target: 'shop' },
