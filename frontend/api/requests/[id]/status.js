@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     const { status } = req.body;
     const sheets = getSheets();
 
-    // 컬럼 A 전체를 읽어서 정확한 시트 행 번호를 찾음
     const colA = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
       range: 'requests!A:A',
@@ -22,7 +21,7 @@ export default async function handler(req, res) {
     let sheetRow = -1;
     for (let i = 1; i < colValues.length; i++) {
       if (parseInt(colValues[i]?.[0]) === requestId) {
-        sheetRow = i + 1; // 1-based 행 번호
+        sheetRow = i + 1;
         break;
       }
     }
@@ -31,26 +30,38 @@ export default async function handler(req, res) {
 
     await updateCell('requests', sheetRow, STATUS_COL, status);
 
-    // 해당 행 전체 데이터 읽기
     const rowData = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `requests!A${sheetRow}:K${sheetRow}`,
+      range: `requests!A${sheetRow}:U${sheetRow}`,
     });
-    const r = [...(rowData.data.values?.[0] || []), ...Array(11).fill('')].slice(0, 11);
+    const r = [...(rowData.data.values?.[0] || []), ...Array(21).fill('')].slice(0, 21);
     r[9] = status;
 
+    let items_detail = [];
+    try { items_detail = JSON.parse(r[15]) || []; } catch {}
+
     return res.json({
-      id: parseInt(r[0]),
-      event_id: parseInt(r[1]),
-      buyer_id: parseInt(r[3]),
-      name: r[4],
-      circle_name: r[5],
-      address: r[6],
-      item_name: r[7],
-      quantity: parseInt(r[8]),
-      status: r[9],
-      created_at: r[10],
-      event: { id: parseInt(r[1]), name: r[2], date: r[10] },
+      id:                   parseInt(r[0]),
+      event_id:             parseInt(r[1]),
+      buyer_id:             r[3],
+      name:                 r[4],
+      circle_name:          r[5],
+      address:              r[6],
+      item_name:            r[7],
+      quantity:             parseInt(r[8]),
+      status:               r[9],
+      created_at:           r[10],
+      event:                { id: parseInt(r[1]), name: r[2], date: r[10] },
+      service_type:         r[11],
+      phone:                r[12],
+      has_paper_item:       r[13],
+      booth_count:          parseInt(r[14]) || 1,
+      items_detail,
+      courier:              r[16],
+      convenience_store:    r[17],
+      pickup_address:       r[18],
+      privacy_agreed:       r[19] === 'true',
+      damage_waiver_agreed: r[20] === 'true',
     });
   } catch (err) {
     console.error(err);
